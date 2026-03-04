@@ -1,11 +1,3 @@
-# Production Change Approval System
-
-A CLI-based safety gate that enforces policy controls before allowing infrastructure changes.
-
-This system simulates production-grade guardrails used in DevOps platforms to prevent unsafe operations.
-
----
-
 ## Design Philosophy
 
 Built with:
