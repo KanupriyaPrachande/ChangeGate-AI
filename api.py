@@ -1,12 +1,21 @@
+
 from fastapi import FastAPI
 from pydantic import BaseModel
 from typing import Optional, List
 from rules import validate_rules
 from models import Decision
 import yaml
+import logging
+
 
 app = FastAPI(title="Production Change Approval API")
 
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
+
+logger = logging.getLogger(__name__)
 
 # -------- Request Model --------
 class ChangeRequest(BaseModel):
@@ -41,7 +50,9 @@ def generate_plan(data: dict) -> List[str]:
 @app.get("/")
 def home():
     return {"message": "Production Change Approval API is running"}
-
+@app.get("/health")
+def health_check():
+    return {"status": "healthy"}
 
 @app.post("/evaluate-change")
 def evaluate_change(request: ChangeRequest):

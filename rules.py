@@ -18,11 +18,19 @@ def validate_rules(data, config):
     # Rule 2
     if action == "scale" and environment == "production":
         messages.append("Production environment detected.")
-        if replicas > 5:
+
+        if replicas > 10:
+            messages.append(
+                f"Replica count {replicas} exceeds maximum limit (10)."
+            )
+            decision = Decision.BLOCKED
+
+        elif replicas > 5:
             messages.append(
                 f"Replica count {replicas} exceeds safe threshold (5)."
             )
             decision = Decision.APPROVAL_REQUIRED
+
         return messages, decision
 
     # Rule 3

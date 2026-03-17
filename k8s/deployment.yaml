@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: change-approval-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: change-approval
+  template:
+    metadata:
+      labels:
+        app: change-approval
+    spec:
+      containers:
+      - name: api
+        image: change-approval
+        ports:
+        - containerPort: 8000
