@@ -2,16 +2,21 @@ pipeline {
     agent any
 
     stages {
-        stage('Install') {
+        stage('Check Python') {
             steps {
-                sh 'apt-get update && apt-get install -y python3 python3-pip'
-                sh 'pip3 install -r requirements.txt'
+                sh 'python3 --version || python --version'
+            }
+        }
+
+        stage('Install Requirements') {
+            steps {
+                sh 'pip3 install --user -r requirements.txt || pip install --user -r requirements.txt'
             }
         }
 
         stage('Run') {
             steps {
-                sh 'python3 change_gate.py sample.yaml'
+                sh 'python3 change_gate.py sample.yaml || python change_gate.py sample.yaml'
             }
         }
     }
