@@ -1,22 +1,26 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'python:3.10'
+        }
+    }
 
     stages {
         stage('Check Python') {
             steps {
-                sh 'python3 --version || python --version'
+                sh 'python --version'
             }
         }
 
         stage('Install Requirements') {
             steps {
-                sh 'pip3 install --user -r requirements.txt || pip install --user -r requirements.txt'
+                sh 'pip install -r requirements.txt'
             }
         }
 
         stage('Run') {
             steps {
-                sh 'python3 change_gate.py sample.yaml || python change_gate.py sample.yaml'
+                sh 'python change_gate.py sample.yaml'
             }
         }
     }
