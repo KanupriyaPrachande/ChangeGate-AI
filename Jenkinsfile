@@ -1,16 +1,20 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'python:3.10'
+        }
+    }
 
     stages {
-        stage('Install Dependencies') {
+        stage('Install') {
             steps {
-                bat 'pip install -r requirements.txt'
+                sh 'pip install -r requirements.txt'
             }
         }
 
-        stage('Run Change Approval') {
+        stage('Run') {
             steps {
-                bat 'python change_gate.py sample.yaml'
+                sh 'python change_gate.py sample.yaml'
             }
         }
     }
