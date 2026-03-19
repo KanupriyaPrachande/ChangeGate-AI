@@ -1,24 +1,20 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'python:3.9'
+        }
+    }
 
     stages {
-        stage('Setup Python Environment') {
+        stage('Install Dependencies') {
             steps {
-                sh '''
-                python3 -m venv venv
-                . venv/bin/activate
-                pip install --upgrade pip
-                pip install -r requirements.txt
-                '''
+                sh 'pip install -r requirements.txt'
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh '''
-                . venv/bin/activate
-                pytest
-                '''
+                sh 'pytest'
             }
         }
     }
