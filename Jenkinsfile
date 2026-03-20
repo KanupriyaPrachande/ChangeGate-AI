@@ -17,7 +17,7 @@ pipeline {
         stage('Test Approval Rules') {
             steps {
                 script {
-                    def action = "delete"
+                    def action = "update"
                     def environment = "production"
 
                     if (action == "delete" && environment == "production") {
