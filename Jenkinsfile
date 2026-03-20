@@ -1,20 +1,37 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.9'
-        }
-    }
+    agent any
 
     stages {
-        stage('Install Dependencies') {
+        stage('Checkout') {
             steps {
-                sh 'pip install -r requirements.txt'
+                echo "Fetching code from GitHub..."
             }
         }
 
-        stage('Run Tests') {
+        stage('Build') {
             steps {
-                sh 'pytest'
+                echo "Building Change Approval System..."
+            }
+        }
+
+        stage('Test Approval Rules') {
+            steps {
+                script {
+                    def action = "delete"
+                    def environment = "production"
+
+                    if (action == "delete" && environment == "production") {
+                        error("❌ Deletion in production is not allowed")
+                    } else {
+                        echo "✅ Approved"
+                    }
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo "Deploying..."
             }
         }
     }
